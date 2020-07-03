@@ -21,8 +21,28 @@ class RangeEstimation {
         points.add(RawRangeData(0f, 0f, 0f, 0f, 0f))
         points.add(RawRangeData(0f, 0f, 0f, 0f, 10f))
         points.add(RawRangeData(0f, 0f, 0f, 10f, 0f))
+        points.add(RawRangeData(0f, 0f, 0f, 10f, 10f))
 
-
+        points.add(RawRangeData(0f, 0f, 0f, 0f, 0f))
+        points.add(RawRangeData(0f, 0f, 0f, 0f, 10f))
+        points.add(RawRangeData(0f, 0f, 0f, 10f, 0f))
+        points.add(RawRangeData(0f, 0f, 0f, 10f, 10f))
+        points.add(RawRangeData(0f, 0f, 0f, 0f, 0f))
+        points.add(RawRangeData(0f, 0f, 0f, 0f, 10f))
+        points.add(RawRangeData(0f, 0f, 0f, 10f, 0f))
+        points.add(RawRangeData(0f, 0f, 0f, 10f, 10f))
+        points.add(RawRangeData(0f, 0f, 0f, 0f, 0f))
+        points.add(RawRangeData(0f, 0f, 0f, 0f, 10f))
+        points.add(RawRangeData(0f, 0f, 0f, 10f, 0f))
+        points.add(RawRangeData(0f, 0f, 0f, 10f, 10f))
+        points.add(RawRangeData(0f, 0f, 0f, 0f, 0f))
+        points.add(RawRangeData(0f, 0f, 0f, 0f, 10f))
+        points.add(RawRangeData(0f, 0f, 0f, 10f, 0f))
+        points.add(RawRangeData(0f, 0f, 0f, 10f, 10f))
+        points.add(RawRangeData(0f, 0f, 0f, 0f, 0f))
+        points.add(RawRangeData(0f, 0f, 0f, 0f, 10f))
+        points.add(RawRangeData(0f, 0f, 0f, 10f, 0f))
+        points.add(RawRangeData(0f, 0f, 0f, 10f, 10f))
 
 
         val x = 5f
@@ -42,7 +62,7 @@ class RangeEstimation {
                 val xW = x + v.xAr * cos(t) - v.yAr * sin(t)
                 val yW = y + v.xAr * sin(t) + v.yAr * cos(t)
                 val noise = Random().nextGaussian()
-                    .toFloat() * 0f //simulates measurement noise xx meter std deviation
+                    .toFloat() * .1f //simulates measurement noise xx meter std deviation
                 v.range = sqrt((xW - v.xAp).pow(2) + (yW - v.yAp).pow(2)) + noise
             }
             // println(points)

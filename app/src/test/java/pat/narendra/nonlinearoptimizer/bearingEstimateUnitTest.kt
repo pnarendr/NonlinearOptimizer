@@ -22,31 +22,32 @@ class BearingEstimation {
         points.add(RawBearingData(0f, 0f, 0f, 10f, 0f))
         points.add(RawBearingData(0f, 0f, 0f, 10f, 10f))
 
+
         // parameters of the global origin for the test set.
         val x = 5f
         val y = 5f
-        // val t = PI.toFloat() / 1f
-        val t = 0f
+        val t = PI.toFloat() / 4f
+        //val t = 0f
 
 
         points.forEach { v ->
-            // v.xAd = random().toFloat() * 10.0f - 3f
-            v.xAd = 0f
-            // v.yAd = random().toFloat() * 10f - 3f
-            v.yAd = 0f
-            val xOar = (v.xO - x) * cos(t) + (v.yO - x) * sin(t)
+            v.xAd = random().toFloat() * 10.0f - 3f
+            //v.xAd = 0f
+            v.yAd = random().toFloat() * 10f - 3f
+            //v.yAd = 0f
+            val xOar = (v.xO - x) * cos(t) + (v.yO - y) * sin(t)
             val yOar = -(v.xO - x) * sin(t) + (v.yO - y) * cos(t)
             //add a random noise to the bearing estimate to simulate measurement error
             val error = 0f
             v.bearing =
-                (atan2(yOar - v.yAd , xOar - v.xAd) * (1 + (random().toFloat() - 0.5f) * error))
+                atan2(yOar - v.yAd , xOar - v.xAd) * (1 + (random().toFloat() - 0.5f) * error)
         }
         println(points)
         val func = FunctionBearingComputeErrors(points)
         val optimizer = FactoryOptimization.levenbergMarquardt(null, true)
         optimizer.setVerbose(System.out, 0)
         optimizer.setFunction(func, null)
-        optimizer.initialize(doubleArrayOf(-1.0, 1.0, 0.5), 1e-8, 1e-8)
+        optimizer.initialize(doubleArrayOf(1.0, 1.0, 1.0), 1e-8, 1e-8)
         UtilOptimize.process(optimizer, 500)
         val found = optimizer.parameters
         println("Final Error = " + optimizer.functionValue)
@@ -94,10 +95,10 @@ class FunctionBearingComputeErrors(val data: List<RawBearingData>) : FunctionNto
         val t = input?.get(2) //t = theta, the yaw angle (in radians) of the AR frame x axis from the world x axis.
         if (x != null && y != null && t != null) {
             data.forEachIndexed { ind, v ->
-                val xOar = (v.xO - x) * cos(t) + (v.yO - x) * sin(t)
+                val xOar = (v.xO - x) * cos(t) + (v.yO - y) * sin(t)
                 val yOar = -(v.xO - x) * sin(t) + (v.yO - y) * cos(t)
-                val error = v.bearing - (atan2((yOar - v.yAd) , (xOar - v.xAd))).toFloat()
-                output?.set(ind, error.toDouble())
+                val error = v.bearing - (atan2((yOar - v.yAd) , (xOar - v.xAd)))
+                output?.set(ind, error)
             }
         }
     }
